@@ -14,6 +14,10 @@ std::string Gestor::getNome() const {
     return nome;
 }
 
+std::string Gestor::getSenha() const {
+    return senha;
+}
+
 map<string, Gestor> gestor;
 
 //cadastrar gestor
@@ -39,5 +43,18 @@ void listarGestor(){
     for(it = gestor.begin(); it != gestor.end(); it++){
         cout << "Gestor: " << it->first << endl;
         //cout << "Gestor: " << it->second.getNome() << endl;
+    }
+}
+
+//Valida se gestor eh o correto de acordo com a senha.
+void validarGestor(){
+    Gestor gestorValida;
+    string senha;
+    cout << "Por favor, informe sua senha: " << endl;
+    cin >> senha;
+    if(senha == gestorValida.getSenha()){
+        cout << "Usuário atenticado.";
+    }else {
+        cout << "Senha incorreta.";
     }
 }

@@ -11,9 +11,10 @@ public:
     
     void setNome(const std::string& nome);
     std::string getNome() const;
+    std::string getSenha() const;
 };
 
 void cadastrarGestor(std::string nome);
 void listarGestor();
-
+void validaGestor();
 #endif
