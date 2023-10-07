@@ -5,7 +5,7 @@
 class Gestor
 {
 private:
-    std::string nome;
+    std::string nome, senha="admin";
 public:
     Gestor();
     
