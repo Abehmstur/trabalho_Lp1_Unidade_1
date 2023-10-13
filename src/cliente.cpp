@@ -16,7 +16,7 @@ std::string Cliente::getNome() const {
 
 map<string, Cliente> cliente;
 
-//cadastrar Cliente
+//cadastrar Cliente - CRIEI MAS DPS VI QUE NÃO FOI PEDIDO NO PDF
 void cadastrarCliente(const string nome){
     //Ver se Cliente existe no map
     if(cliente.find(nome) == cliente.end()){

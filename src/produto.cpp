@@ -24,6 +24,25 @@ float Produto::getPreco() const {
 
 map<string, Produto> produto;
 
+//cadastrar produto
+void cadastrarProduto(const string nome, float preco){
+    //Ver se produto existe no map
+    if(produto.find(nome) == produto.end()){
+    //Cria novo produto caso nao exista
+    Produto novoProduto;
+    novoProduto.setNome(nome);
+    novoProduto.setPreco(preco);
+    
+    // adiciona o novo produto no mapa
+    produto[nome] = novoProduto;
+    } else {
+        //se o produto já existe no map, então só atualiza o nome dele
+        produto[nome].setNome(nome);
+        produto[nome].setPreco(preco);
+    }
+};
+
+//alterar produto
 void alterarProduto(const string nome) {
     //Ver se produto existe no map
     if(produto.find(nome) == produto.end()){
@@ -38,3 +57,15 @@ void alterarProduto(const string nome) {
         produto[nome].setNome(nome);
     }
 }
+
+//listar produto
+void listarProduto(){
+    map<string, Produto>::iterator it;
+
+    for(it = produto.begin(); it != produto.end(); it++){
+        cout << "Produto: " << it->first << endl;
+        cout << "Produto: " << it->second.getPreco() << endl;
+    }
+}
+
+//
