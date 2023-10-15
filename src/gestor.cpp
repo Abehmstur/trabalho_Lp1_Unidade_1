@@ -20,7 +20,15 @@ std::string Gestor::getSenha() const {
 
 map<string, Gestor> gestor;
 
-//cadastrar gestor
+
+
+
+
+
+
+
+
+//cadastrar gestor #USAR SÓ SE TIVER TEMPO (EXTRA)
 void cadastrarGestor(const string nome){
     //Ver se gestor existe no map
     if(gestor.find(nome) == gestor.end()){
