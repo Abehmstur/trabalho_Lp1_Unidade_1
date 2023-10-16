@@ -13,7 +13,7 @@ void menuPrincipal(){
 //Menu do cliente
 void menuCliente(){
     cout << "===== Main Cliente =====" << endl;
-    cout << "Ola cliente que você deseja fazer? " << endl;
+    cout << "Ola cliente que voce deseja fazer? " << endl;
     cout << "1. Listar todos os sanduiches cadastrados." << endl;
     cout << "2. Listar todos os sucos cadastrados." << endl;
     cout << "3. Escolher o lanche." << endl;
@@ -37,5 +37,15 @@ void menuGestor(){
     cout << "7. Excluir sanduiche." << endl;
     cout << "8. Excluir suco." << endl;
     cout << "9. Voltar ao Main Menu." << endl;
+    cout << "10. Extras." << endl;
+    cout << "======================" << endl;
+}
+
+void extras(){
+    cout << "===== Main Extras =====" << endl;
+    cout << "1. Cadastrar Gestor." << endl;
+    cout << "2. Listar Gestor." << endl;
+    cout << "3. Cadastrar Cliente." << endl;
+    cout << "4. Listar Cliente." << endl;
     cout << "======================" << endl;
 }

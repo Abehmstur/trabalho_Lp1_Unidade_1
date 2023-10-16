@@ -7,7 +7,6 @@
 
 int main()
 {   
-    system("clear");
     int escolha;
     //Chamar menu Principal
     menuPrincipal();
@@ -21,17 +20,62 @@ int main()
         res = validaGestor();
         if(res == true){
             menuGestor();
-            cout << "RE: " ;
+            cout << "RE: ";
             cin >> escolha;
-            if(escolha == 1){}
-            if(escolha == 2){}
-            if(escolha == 3){}
-            if(escolha == 4){}
-            if(escolha == 5){}
-            if(escolha == 6){}
-            if(escolha == 7){}
-            if(escolha == 8){}
-            if(escolha == 9){}
+            if(escolha == 1){
+                carregarProdutosDoArquivo(SANDUICHE);
+            }
+            if(escolha == 2){
+                carregarProdutosDoArquivo(SUCO);
+            }
+            if(escolha == 3){
+                salvarArquivo(SANDUICHE, produto);
+            }
+            if(escolha == 4){
+                salvarArquivo(SUCO, produto);
+            }
+            if(escolha == 5){
+                alterarProduto(SANDUICHE, produto);
+            }
+            if(escolha == 6){
+                alterarProduto(SUCO, produto);
+            }
+            if(escolha == 7){
+                //pendente
+            }
+            if(escolha == 8){
+                //pendente
+            }
+            if(escolha == 9){
+                main();
+            }
+            if(escolha == 10){
+                extras();
+                cout << "RE: ";
+                cin >> escolha;
+                if(escolha == 1){
+                    string pessoa;
+                    cout << "Informe um nome para o Gestor: \n";
+                    cin >> pessoa;
+                    cadastrarGestor(pessoa);
+                    cout << "Gestor cadastrado com sucesso! \n Retornando a main para realizar o login. \n";
+                    main();
+                } else if(escolha == 2){  
+                    listarGestor();
+                    cout << "Listagem de gestores: \n";
+                    main();
+                } else if(escolha == 3){  
+                    string pessoa;
+                    cout << "Informe um nome para o Gestor: \n";
+                    cin >> pessoa;
+                    cadastrarCliente(pessoa);
+                    main();
+                } else if(escolha == 4){  
+                    listarCliente();
+                    cout << "Listagem de clientes: \n";
+                    main();
+                }
+            }
         }else {
             cout << "Senha incorreta! Reinicie a operacao." << endl;
         }

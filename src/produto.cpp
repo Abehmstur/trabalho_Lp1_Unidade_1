@@ -60,7 +60,7 @@ void salvarArquivo(int escolha, map<string, Produto>& produto) {
     if (escolha == SUCO) {
         fstream arquivoSuco("arquivoSuco.txt", ios::out | ios::app);
 
-        cout << "Você escolheu cadastrar um suco, informe o nome e o preço." << endl;
+        cout << "Voce escolheu cadastrar um suco, informe o nome e o preco." << endl;
 
         for (auto& it : produto) {
             string nomeSuco = it.first;
@@ -80,7 +80,7 @@ void salvarArquivo(int escolha, map<string, Produto>& produto) {
     }else if(escolha == SANDUICHE){
         fstream arquivoSanduiche("arquivoSanduiche.txt", ios::out | ios::app);
 
-        cout << "Você escolheu cadastrar um sanduiche, informe o nome e o preço." << endl;
+        cout << "Voce escolheu cadastrar um sanduiche, informe o nome e o preco: " << endl;
 
         for (auto& it : produto) {
             string nomeSanduiche = it.first;
@@ -173,7 +173,7 @@ void alterarProduto(int escolha, map<string, Produto>& produtos){
         };
     };
 
-    // se a escolha for alterar o sanduiche.
+    //se a escolha for alterar o sanduiche.
     //caso o cliente deseje ALTERAR um suco ou um sanduiche.
     if (escolha == SANDUICHE) {
 
