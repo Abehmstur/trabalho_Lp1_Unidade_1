@@ -1,9 +1,15 @@
 #include "../include/produto.hpp"
+#include "../include/carrinho.hpp"
 #include <map>
 #include <iostream>
 #include <fstream>
 using namespace std;
 
+const int SUCO = 0;
+const int SANDUICHE = 1;
+const int CARRINHO = 3;
+
+//constructor e funcoes de encapsulamento da de produto.hpp
 Produto::Produto() {
 }
 
@@ -23,6 +29,27 @@ float Produto::getPreco() const {
     return preco;
 }
 
+//constructor e funcoes de encapsulamento da de carrinho.hpp
+Carrinho::Carrinho(){
+}
+
+void Carrinho::setItem(const string& novoItem){
+    item = novoItem;
+}
+
+void Carrinho::setPreco(const float& novoPreco){
+    preco = novoPreco;    
+}
+
+string Carrinho::getItem(){
+    return item;
+}
+
+float Carrinho::getPreco() const {
+    return preco;
+}
+
+
 map<string, Produto> produto;
 map<string, Produto> carrinho;
 
@@ -30,7 +57,7 @@ map<string, Produto> carrinho;
 void salvarArquivo(int escolha, map<string, Produto>& produto) {
     float preco_produto = 0.0;
     //caso o cliente deseje cadastrar um suco ou um sanduiche.
-    if (escolha == 0) {
+    if (escolha == SUCO) {
         fstream arquivoSuco("arquivoSuco.txt", ios::out | ios::app);
 
         cout << "Você escolheu cadastrar um suco, informe o nome e o preço." << endl;
@@ -50,7 +77,7 @@ void salvarArquivo(int escolha, map<string, Produto>& produto) {
 
         arquivoSuco.close();
 
-    }else if(escolha == 1){
+    }else if(escolha == SANDUICHE){
         fstream arquivoSanduiche("arquivoSanduiche.txt", ios::out | ios::app);
 
         cout << "Você escolheu cadastrar um sanduiche, informe o nome e o preço." << endl;
@@ -75,10 +102,9 @@ void salvarArquivo(int escolha, map<string, Produto>& produto) {
 //alterar produto
 void alterarProduto(int escolha, map<string, Produto>& produtos){
     string nomeProduto = "";
-    float preco_produto = 0.0;
 
     //caso o cliente deseje ALTERAR um suco ou um sanduiche.
-    if (escolha == 0) {
+    if (escolha == SUCO) {
 
         cout << "Você escolheu ALTERAR um suco, informe o nome do suco que deseja alterar." << endl;
         getline(cin, nomeProduto);
@@ -135,7 +161,7 @@ void alterarProduto(int escolha, map<string, Produto>& produtos){
             arquivoSuco.close();
 
             //abrir arquivo para leitura e escrita e escreve o map atualizado no arquivo
-            fstream arquivoSuco("arquivoSuco.txt", ios::in | ios::out |ios::app);
+           //fstream arquivoSuco("arquivoSuco.txt", ios::in | ios::out |ios::app);
             for (const auto& produto : produtos) {
                     arquivoSuco << produto.first << "\n";
                     arquivoSuco << produto.second.getPreco() << "\n";
@@ -149,7 +175,7 @@ void alterarProduto(int escolha, map<string, Produto>& produtos){
 
     // se a escolha for alterar o sanduiche.
     //caso o cliente deseje ALTERAR um suco ou um sanduiche.
-    if (escolha == 1) {
+    if (escolha == SANDUICHE) {
 
         cout << "Você escolheu ALTERAR um sanduicge, informe o nome do suco que deseja alterar." << endl;
         getline(cin, nomeProduto);
@@ -207,7 +233,6 @@ void alterarProduto(int escolha, map<string, Produto>& produtos){
             arquivoSanduiche.close();
 
             //abrir arquivo para leitura e escrita e escreve o map atualizado no arquivo
-            fstream arquivoSanduiche("arquivoSuco.txt", ios::in | ios::out |ios::app);
             for (const auto& produto : produtos) {
                     arquivoSanduiche << produto.first << "\n";
                     arquivoSanduiche << produto.second.getPreco() << "\n";
@@ -221,41 +246,87 @@ void alterarProduto(int escolha, map<string, Produto>& produtos){
 };
 
 //listar produto
-    map<string, Produto> carregarProdutosDoArquivo(const string& escolha) {
+map<string, Produto> carregarProdutosDoArquivo(const int& escolha) {
     map<string, Produto> produtos;
 
-    if(escolha == 0){
+    if(escolha == SUCO){
         string nomeArquivo = "arquivoSuco.txt";
-        fstream arquivo(nomeArquivo, ios::in | ios::out |ios::app);
-
-        if (!arquivo.is_open()) {
-            cerr << "Erro ao abrir o arquivo: " << nomeArquivo << endl;
-            return produtos;  // Retorna um mapa vazio em caso de erro
-        }
+        ifstream arquivo(nomeArquivo);
+        
+        cout << "Itens:\n";
 
         string linha;
-        string nomeNoArquivo, valorNoArquivo;
         while (getline(arquivo, linha)) {
             
-            if (linha.find() == 0) {
+            if (linha.find("Item: ") == 0) {
                 Produto produto;
-                produto.nome = linha.substr(6); // Extrai o nome do produto
+                produto.setNome(linha.substr(6));//Extrai o nome do produto e coloca no atributo
 
-                getline(arquivo, linha); // Lê a próxima linha (deve ser o preço)
-                if (linha.find("Preço: ") == 0) {
-                    produto.preco = stof(linha.substr(7)); // Extrai e converte o preço
-                    produtos[produto.nome] = produto; // Adiciona o produto ao mapa
+                if (std::getline(arquivo, linha) && linha.find("Preço: ") == 0) {
+                    produto.setPreco(std::stof(linha.substr(7)));  // Extrai e converte o preço
+                    produtos[produto.getNome()] = produto;  // Adiciona o produto ao mapa
                 }
             }
+            arquivo.close();
+            return produtos;
+        }
+    
+    } else if(escolha == SANDUICHE){
+        string nomeArquivo = "arquivoSanduiche.txt";
+        ifstream arquivo(nomeArquivo);
+        
+        cout << "Itens:\n";
+
+        string linha;
+        while (getline(arquivo, linha)) {
+            
+            if (linha.find("Item: ") == 0) {
+                Produto produto;
+                produto.setNome(linha.substr(6));//Extrai o nome do produto e coloca no atributo
+
+                if (std::getline(arquivo, linha) && linha.find("Preço: ") == 0) {
+                    produto.setPreco(std::stof(linha.substr(7)));  // Extrai e converte o preço
+                    produtos[produto.getNome()] = produto;  // Adiciona o produto ao mapa
+                }
         }
 
         arquivo.close();
         return produtos;
+        }
+
+    } else if(escolha == CARRINHO){
+        string nomeArquivo = "arquivoCarrinho.txt";
+        ifstream arquivo(nomeArquivo);
+        
+        cout << "Itens:\n";
+
+        string linha;
+        while (getline(arquivo, linha)) {
+            
+            if (linha.find("Item: ") == 0) {
+                Produto produto;
+                produto.setNome(linha.substr(6));//Extrai o nome do produto e coloca no atributo
+
+                if (std::getline(arquivo, linha) && linha.find("Preço: ") == 0) {
+                    produto.setPreco(std::stof(linha.substr(7)));  // Extrai e converte o preço
+                    produtos[produto.getNome()] = produto;  // Adiciona o produto ao mapa
+                }
+        }
+
+        arquivo.close();
+        return produtos;
+        }
     }
 }
 
-//escolher produto
-void adicionarAoCarrinho(map<string, Produto>& carrinho, const Produto& produto) {
+//escolher produto e adicionar ao carrinho SE DER TEMPO EU FAÇO
+/* void adicionarAoCarrinho(map<string, Produto>& carrinho, const Produto& produto) {
     carrinho[produto.getNome()] = produto;
     cout << "Produto adicionado ao carrinho: " << produto.getNome() << " (R$" << produto.getPreco() << ")\n";
-}
+
+    fstream arquivoCarrinho("arquivoCarrinho.txt", std::ios::out|std::ios::in|std::ios::app);
+
+    if(arquivoCarrinho.is_open()){
+
+    }
+} */

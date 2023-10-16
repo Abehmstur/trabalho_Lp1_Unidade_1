@@ -20,14 +20,6 @@ std::string Gestor::getSenha() const {
 
 map<string, Gestor> gestor;
 
-
-
-
-
-
-
-
-
 //cadastrar gestor #USAR SÓ SE TIVER TEMPO (EXTRA)
 void cadastrarGestor(const string nome){
     //Ver se gestor existe no map
@@ -55,14 +47,18 @@ void listarGestor(){
 }
 
 //Valida se gestor eh o correto de acordo com a senha.
-void validarGestor(){
+bool validaGestor(){
+    bool valid = true;
     Gestor gestorValida;
     string senha;
     cout << "Por favor, informe sua senha: " << endl;
     cin >> senha;
     if(senha == gestorValida.getSenha()){
-        cout << "Usuário atenticado.";
+        cout << "Usuário atenticado." << endl;
+        return valid;
     }else {
-        cout << "Senha incorreta.";
+        cout << "Senha incorreta." << endl;;
+        valid = false;
+        return valid;
     }
 }

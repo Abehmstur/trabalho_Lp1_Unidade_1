@@ -16,5 +16,5 @@ public:
 
 void cadastrarGestor(std::string nome);
 void listarGestor();
-void validaGestor();
+bool validaGestor();
 #endif

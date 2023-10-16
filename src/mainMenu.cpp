@@ -27,7 +27,7 @@ void menuCliente(){
 //Menu do gestor
 void menuGestor(){
     cout << "===== Main Gestor =====" << endl;
-    cout << "Olá gestor você deseja fazer? " << endl;
+    cout << "Ola gestor voce deseja fazer? " << endl;
     cout << "1. Listar todos os sanduiches cadastrados." << endl;
     cout << "2. Listar todos os sucos cadastrados." << endl;
     cout << "3. Adicionar novo sanduiche." << endl;
