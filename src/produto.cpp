@@ -120,10 +120,10 @@ void alterarProduto(int escolha, map<string, Produto>& produtos) {
         string nomeArquivo;
         if (escolha == SUCO) {
             nomeArquivo = "arquivoSuco.txt";
-            cout << "Você escolheu ALTERAR um suco, informe o nome do suco que deseja alterar: ";
+            cout << "Voc escolheu ALTERAR um suco, informe o nome do suco que deseja alterar: ";
         } else {
             nomeArquivo = "arquivoSanduiche.txt";
-            cout << "Você escolheu ALTERAR um sanduiche, informe o nome do sanduoche que deseja alterar: ";
+            cout << "Voce escolheu ALTERAR um sanduiche, informe o nome do sanduoche que deseja alterar: ";
         }
 
         cin.ignore();  // Limpar o buffer para garantir que a entrada funcione corretamente
@@ -176,7 +176,7 @@ void alterarProduto(int escolha, map<string, Produto>& produtos) {
             }
             arquivo.close();
         } else {
-            cout << "Não foi possível abrir o arquivo." << endl;
+            cout << "Não foi possuvel abrir o arquivo." << endl;
         }
     }
 }
