@@ -1,0 +1,8 @@
+Item: MistoQuente
+Preço: 1
+Item: SanduicheNatural
+Preço: 10
+Item: sucoAbacaxi
+Preço: 99
+Item: Teste
+Preço: 11
