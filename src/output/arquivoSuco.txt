@@ -1,2 +1,6 @@
-Item: Item: NovoSuco
-Preço: 10
+Item: SucoNovo
+Preço: 100
+Item: MaxSucoTitatum
+Preço: 11
+Item: Teste1
+Preço: 11
