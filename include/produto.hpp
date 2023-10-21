@@ -21,5 +21,8 @@ void cadastrarSuco(std::string nome, float preco);
 void listarSuco();
 void cadastrarSanduiche(std::string nome, float preco);
 void listarSanduiche();
+map<string, Produto> carregarProdutosDoArquivo(const int& escolha);
+void excluirProduto(int escolha, std::map<std::string, Produto>& produtos);
+
 
 #endif

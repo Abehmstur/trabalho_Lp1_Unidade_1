@@ -54,7 +54,7 @@ map<string, Produto> produto;
 map<string, Produto> carrinho;
 
 //funcao cadastrar novo produto
-void cadastrarProduto(std::map<std::string, Produto>& produtos) {
+void cadastrarProduto(map<string, Produto>& produtos) {
     string nome;
     cout << "Informe o nome do produto: " << endl;
     cout << "RE: " << endl;
@@ -109,6 +109,7 @@ void salvarArquivo(int escolha, map<string, Produto>& produto) {
         
         arquivoSanduiche.close();
     }
+    cout << "Produto cadastrado com secesso!" << endl;
 }
 
 //alterar produto
@@ -132,6 +133,7 @@ void alterarProduto(int escolha, map<string, Produto>& produtos) {
         // Abrir o arquivo para leitura e escrita
         fstream arquivo(nomeArquivo, ios::in | ios::out);
 
+        //se o arquivo estiver aberto == true
         if (arquivo.is_open()) {
             string linha;
 
@@ -176,9 +178,166 @@ void alterarProduto(int escolha, map<string, Produto>& produtos) {
             }
             arquivo.close();
         } else {
-            cout << "Não foi possuvel abrir o arquivo." << endl;
+            cout << "Nao foi possuvel abrir o arquivo." << endl;
         }
     }
+}
+//funcao excluir produto
+void excluirProduto(int escolha, map<string, Produto>& produtos) {
+    string nomeProduto = "";
+    string nomeArquivo;
+
+    if (escolha == SUCO) {
+        nomeArquivo = "arquivoSuco.txt";
+        cout << "Voce escolheu EXCLUIR um suco, informe o nome do suco que deseja excluir: ";
+    } else if (escolha == SANDUICHE) {
+        nomeArquivo = "arquivoSanduiche.txt";
+        cout << "Voce escolheu EXCLUIR um sandueche, informe o nome do sanduiche que deseja excluir: ";
+    }else if (escolha == CARRINHO) {
+        nomeArquivo = "carrinho.txt";
+        cout << "Voce escolheu EXCLUIR um produto do carrinho, informe o nome do produto que deseja excluir: ";
+    } else {
+        cout << "Escolha invalida." << endl;
+        return;
+    }
+
+    cin.ignore();
+    getline(cin, nomeProduto);
+
+    // Abrir o arquivo para leitura e escrita
+    fstream arquivo(nomeArquivo, ios::in | ios::out);
+
+    if (arquivo.is_open()) {
+        // Vamos criar um mapa temporário para armazenar os produtos
+        map<string, Produto> produtosTemporarios;
+        string linha;
+
+        // Enquanto houver linhas no arquivo
+        while (getline(arquivo, linha)) {
+            if (linha.find("Item: ") == 0) {
+                Produto produto;
+                produto.setNome(linha.substr(6));
+
+                if (getline(arquivo, linha) && linha.find("Preço: ") == 0) {
+                    produto.setPreco(stof(linha.substr(7)));
+                    produtosTemporarios[produto.getNome()] = produto;
+                }
+            }
+        }
+
+        arquivo.close();
+
+        // Verifique se o produto a ser excluído existe no mapa temporário
+        auto it = produtosTemporarios.find(nomeProduto);
+        if (it != produtosTemporarios.end()) {
+            produtosTemporarios.erase(it); // Remove o produto do mapa temporário
+
+            // Abra o arquivo novamente para reescrever os produtos restantes
+            arquivo.open(nomeArquivo, ios::out | ios::trunc);
+
+            for (const auto& produto : produtosTemporarios) {
+                arquivo << "Item: " << produto.first << "\n";
+                arquivo << "Preço: " << produto.second.getPreco() << "\n";
+            }
+
+            arquivo.close();
+
+            cout << "Produto excluido com sucesso!" << endl;
+        } else {
+            cout << "Produto nao encontrado." << endl;
+        }
+    } else {
+        cout << "Nao foi possível abrir o arquivo." << endl;
+    }
+}
+
+//escolher produto
+void escolherProduto(int escolha, map<string, Produto>& produtos) {
+    string nomeProduto = "";
+    string nomeArquivo;
+
+    if (escolha == SUCO) {
+        nomeArquivo = "arquivoSuco.txt";
+        cout << "Informe o nome do suco que deseja adicionar ao carrinho: ";
+    } else if (escolha == SANDUICHE) {
+        nomeArquivo = "arquivoSanduiche.txt";
+        cout << "Informe o nome do sanduiche que deseja adicionar ao carrinho: ";
+    } else {
+        cout << "Escolha invalida." << endl;
+        return;
+    }
+
+    cin >> nomeProduto;
+
+    // Abrir o arquivo para leitura e escrita
+    fstream arquivo(nomeArquivo, ios::in | ios::out);
+
+    if (arquivo.is_open()) {
+        // Vamos criar um mapa temporário para armazenar os produtos
+        map<string, Produto> produtosTemporarios;
+        string linha;
+
+        // Enquanto houver linhas no arquivo ele salva os itens da lista em produtos temporarios
+        while (getline(arquivo, linha)) {
+            if (linha.find("Item: ") == 0) {
+                Produto produto;
+                produto.setNome(linha.substr(6));
+
+                if (getline(arquivo, linha) && linha.find("Preço: ") == 0) {
+                    produto.setPreco(stof(linha.substr(7)));
+                    produtosTemporarios[produto.getNome()] = produto;
+                }
+            }
+        }
+
+        arquivo.close();
+
+        //Verifique se o produto a ser escolhido existe no mapa temporário
+        auto it = produtosTemporarios.find(nomeProduto);
+        cout << "nome >>>" << nomeProduto << endl;
+        if (it != produtosTemporarios.end()) {
+            // Abre o arquivo do carrinho para adicionar o item
+            fstream carrinho("carrinho.txt", ios::out | ios::app);
+
+            // Adiciona o item escolhido no carrinho
+            carrinho << "Item: " << nomeProduto << "\n";
+            carrinho << "Preço: " << produtosTemporarios[nomeProduto].getPreco() << "\n";
+
+            // Fecha o arquivo do carrinho
+            carrinho.close();
+
+            cout << "Produto adicionado com sucesso! \n" << endl;
+        } else {
+            cout << "Produto nao encontrado." << endl;
+        }
+    } else {
+        cout << "Nao foi possível abrir o arquivo." << endl;
+    }
+}
+
+//calcular o preço dos produtos do carrinho.
+float calcularPreco() {
+    float total = 0.0;
+    std::ifstream arquivo("carrinho.txt");
+
+    if (!arquivo.is_open()) {
+        cerr << "Não foi possível abrir o arquivo." << std::endl;
+        return total;
+    }
+
+    std::string linha;
+
+    while (std::getline(arquivo, linha)) {
+
+        if (linha.find("Preço: ") == 0) {
+            //pega o preco e converte em float
+            float preco = std::stof(linha.substr(7));
+            total += preco;
+        }
+    }
+
+    arquivo.close();
+    return total;
 }
 
 //listar produtos
@@ -192,7 +351,7 @@ map<string, Produto> carregarProdutosDoArquivo(const int& escolha) {
     } else if (escolha == SANDUICHE) {
         nomeArquivo = "arquivoSanduiche.txt";
     } else if (escolha == CARRINHO) {
-        nomeArquivo = "arquivoCarrinho.txt";
+        nomeArquivo = "carrinho.txt";
     } else {
         cout << "Escolha inválida!" << endl;
         return produtos;
@@ -216,7 +375,7 @@ map<string, Produto> carregarProdutosDoArquivo(const int& escolha) {
             produto.setNome(linha.substr(6));
 
             if (getline(arquivo, linha) && linha.find("Preço: ") == 0) {
-                produto.setPreco(std::stof(linha.substr(7)));
+                produto.setPreco(stof(linha.substr(7)));
                 produtos[produto.getNome()] = produto;
                 cout << "Nome: " << produto.getNome() << ", Preco: " << produto.getPreco() << endl;
             }
@@ -232,7 +391,7 @@ map<string, Produto> carregarProdutosDoArquivo(const int& escolha) {
     carrinho[produto.getNome()] = produto;
     cout << "Produto adicionado ao carrinho: " << produto.getNome() << " (R$" << produto.getPreco() << ")\n";
 
-    fstream arquivoCarrinho("arquivoCarrinho.txt", std::ios::out|std::ios::in|std::ios::app);
+    fstream arquivoCarrinho("arquivoCarrinho.txt", ios::out|ios::in|ios::app);
 
     if(arquivoCarrinho.is_open()){
 

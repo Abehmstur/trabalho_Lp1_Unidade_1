@@ -6,5 +6,4 @@ Item: MistoQuente
 Preço: 1
 Item: SanduicheNatural
 Preço: 10
-Item: sucoAbacaxi
-Preço: 99
+

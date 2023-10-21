@@ -13,7 +13,7 @@ int main()
     int escolha;
     //Chamar menu Principal
     menuPrincipal();
-    cout << "RE: " ;
+    std::cout << "RE: " ;
     cin >> escolha;
 
     switch (escolha)
@@ -23,7 +23,7 @@ int main()
         res = validaGestor();
         if(res == true){
             menuGestor();
-            cout << "RE: ";
+            std::cout << "RE: ";
             cin >> escolha;
             //LISTAR SANDUICHES CADASTRADOS
             if(escolha == 1){
@@ -51,7 +51,7 @@ int main()
                 //salvar map preenchido no arquivo
                 salvarArquivo(SANDUICHE, produtos);
             }
-            //CADASTRAR E SALVAR SANDUICHES NO ARQUIVO
+            //CADASTRAR E SALVAR SUCOS NO ARQUIVO
             if(escolha == 4){
                 //adição de alguns produtos para criar o arquivo txt
                 /* Produto sucoLaranja;
@@ -63,6 +63,7 @@ int main()
                 sucoUva.setNome("Suco de Uva");
                 sucoUva.setPreco(3.00);
                 produtos["SucoUva"] = sucoUva; */
+                cadastrarProduto(produtos);
 
                 salvarArquivo(SUCO, produtos);
             }
@@ -74,11 +75,13 @@ int main()
             if(escolha == 6){
                 alterarProduto(SUCO, produtos);
             }
+            //EXCLUIR SANDUICHE
             if(escolha == 7){
-                //pendente
+                excluirProduto(SANDUICHE, produtos); 
             }
+            //EXCLUIR SUCO
             if(escolha == 8){
-                //pendente
+                excluirProduto(SUCO, produtos);
             }
             //VOLTAR AO MENU PRINCIPAL
             if(escolha == 9){
@@ -87,38 +90,38 @@ int main()
             //EXTRA CADASTRAR PESSOA, MAS NÃO SALVA EM ARQUIVO TXT SÓ FICA NO MAP.
             if(escolha == 10){
                 extras();
-                cout << "RE: ";
+                std::cout << "RE: ";
                 cin >> escolha;
                 if(escolha == 1){
                     string pessoa;
-                    cout << "Informe um nome para o Gestor: \n";
+                    std::cout << "Informe um nome para o Gestor: \n";
                     cin >> pessoa;
                     cadastrarGestor(pessoa);
-                    cout << "Gestor cadastrado com sucesso! \n Retornando a main para realizar o login. \n";
+                    std::cout << "Gestor cadastrado com sucesso! \n Retornando a main para realizar o login. \n";
                     main();
                 } else if(escolha == 2){  
                     listarGestor();
-                    cout << "Listagem de gestores: \n";
+                    std::cout << "Listagem de gestores: \n";
                     main();
                 } else if(escolha == 3){  
                     string pessoa;
-                    cout << "Informe um nome para o Gestor: \n";
+                    std::cout << "Informe um nome para o Gestor: \n";
                     cin >> pessoa;
                     cadastrarCliente(pessoa);
                     main();
                 } else if(escolha == 4){  
                     listarCliente();
-                    cout << "Listagem de clientes: \n";
+                    std::cout << "Listagem de clientes: \n";
                     main();
                 }
             }
         }else {
-            cout << "Senha incorreta! Reinicie a operacao." << endl;
+            std::cout << "Senha incorreta! Reinicie a operacao." << endl;
         }
         break;
     case 2://cliente
         menuCliente();
-        cout << "RE: ";
+        std::cout << "RE: ";
             cin >> escolha;
             //LISTAR SANDUICHES CADASTRADOS
             if(escolha == 1){
@@ -128,16 +131,53 @@ int main()
             if(escolha == 2){
                 carregarProdutosDoArquivo(SUCO);
             }
+            //ESCOLHER LANCHE
+            if(escolha == 3){
+                //antes de chamar a funcao escolher, lista os produtos.
+                cout << "Você desejou escoljer o lanche, segue as opções: " << endl;
+                cout << "=========== SANDUICHES ===========" << endl;
+                carregarProdutosDoArquivo(SANDUICHE);
+                escolherProduto(SANDUICHE, produtos);
+                cout << "=========== SUCOS ===========" << endl;
+                carregarProdutosDoArquivo(SUCO);
+                escolherProduto(SUCO, produtos);
+                cout << "=========== xxxxx ===========" << endl;
+
+                cout << "Produtos escolhidos com sucesso! Gostaria de retornar ao Main Menu? (0) para SIM - (1) para NAO \n RE: ";
+                int newEscolha;
+                cin >> newEscolha;
+                while (newEscolha != 0 && newEscolha != 1) {
+                    cout << "Escolha inválida! Tente novamente! \n (0) para SIM - (1) para NAO \n RE: ";
+                    cin >> newEscolha;
+                }
+                if(newEscolha == 0){
+                    cout << "Retornando ao MAIN MENU!" << endl;
+                    main();
+                } else {
+                    cout << "Pedido realizado!" << endl;
+                }
+            }
+            if(escolha == 4){
+                cout << "TOTAL: R$" << calcularPreco();
+            } 
+            if(escolha == 5){
+                cout << "=== Produtos no carrinho === " << endl;
+                carregarProdutosDoArquivo(CARRINHO);
+            }
+            if(escolha == 6){
+                cout << "=== Excluir produtos do carrinho === " << endl;
+                excluirProduto(CARRINHO, produtos);
+            } 
             if(escolha == 7){
                 main();
             }
         break;
     case 3://sair
-        cout << "Obrigado, volte sempre!" << endl;
+        std::cout << "Obrigado, volte sempre!" << endl;
         break;
     
     default:
-        cout << "Nenuma das alternativas foi escolhida, obrigado volte sempre!" << endl;
+        std::cout << "Nenuma das alternativas foi escolhida, obrigado volte sempre!" << endl;
         break;
     }
 
